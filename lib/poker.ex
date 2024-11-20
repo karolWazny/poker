@@ -33,4 +33,10 @@ defmodule Poker do
     end
   end
 
+  def create_hand(hand_size) do
+    Poker.create_deck
+    |> Poker.shuffle
+    |> Poker.deal(hand_size)
+  end
+
 end
