@@ -33,6 +33,15 @@ defmodule Poker do
 
   @doc """
   ## Examples
+      iex> Poker.deck_of(["Ace of Spades", "Ace of Clubs"])
+      [%{value: "Ace", suit: "Spades"}, %{value: "Ace", suit: "Clubs"}]
+  """
+  def deck_of(card_strings) do
+    Enum.map(card_strings, &Poker.parse_card_string/1)
+  end
+
+  @doc """
+  ## Examples
       iex> Poker.parse_card_string "Ace of Spades"
       %{value: "Ace", suit: "Spades"}
   """
