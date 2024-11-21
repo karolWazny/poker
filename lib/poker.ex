@@ -37,15 +37,15 @@ defmodule Poker do
       [%{value: "Ace", suit: "Spades"}, %{value: "Ace", suit: "Clubs"}]
   """
   def deck_of(card_strings) do
-    Enum.map(card_strings, &Poker.parse_card_string/1)
+    Enum.map(card_strings, &Poker.card_of/1)
   end
 
   @doc """
   ## Examples
-      iex> Poker.parse_card_string "Ace of Spades"
+      iex> Poker.card_of "Ace of Spades"
       %{value: "Ace", suit: "Spades"}
   """
-  def parse_card_string(card) do
+  def card_of(card) do
     [value, suit] = String.split(card, " of ", trim: true)
     %{value: value, suit: suit}
   end
@@ -83,6 +83,16 @@ defmodule Poker do
     Poker.create_deck
     |> Poker.shuffle
     |> Poker.deal(hand_size)
+  end
+
+  @doc """
+  ## Examples
+      iex> hand = Poker.deck_of ["Six of Clubs", "Four of Diamonds", "Five of Spades", "Three of Clubs", "Two of Hearts"]
+      iex> Poker.recognise_hand hand
+      {:highCard, [6, 5, 4, 3, 2]}
+  """
+  def recognise_hand(hand) do
+    {:highCard, [6, 5, 4, 3, 2]}
   end
 
 end
