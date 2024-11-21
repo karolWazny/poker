@@ -5,7 +5,7 @@ defmodule Poker do
     suits = ["Spades", "Clubs", "Hearts", "Diamonds"]
 
     for suit <- suits, value <- values do
-      "#{value} of #{suit}"
+      %{value: value, suit: suit}
     end
   end
 
@@ -19,12 +19,29 @@ defmodule Poker do
   ## Examples
 
       iex> deck = Poker.create_deck
+      iex> Poker.contains?(deck, %{value: "Ace", suit: "Spades"})
+      true
+
+      iex> deck = Poker.create_deck
       iex> Poker.contains?(deck, "Ace of Spades")
       true
 
   """
   def contains?(deck, card) do
-    Enum.member?(deck, card)
+    case card do
+      %{value: _value, suit: _suit} -> Enum.member?(deck, card)
+      card_string -> Enum.member?(deck, parse_card_string(card_string))
+    end
+  end
+
+  @doc """
+  ## Examples
+      iex> Poker.parse_card_string "Ace of Spades"
+      %{value: "Ace", suit: "Spades"}
+  """
+  def parse_card_string(card) do
+    [value, suit] = String.split(card, " of ", trim: true)
+    %{value: value, suit: suit}
   end
 
   @doc """
@@ -37,7 +54,7 @@ defmodule Poker do
       iex> deck = Poker.create_deck
       iex> {hand, _deck} = Poker.deal(deck, 1)
       iex> hand
-      ["Ace of Spades"]
+      [%{value: "Ace", suit: "Spades"}]
 
   """
   def deal(deck, hand_size) do
