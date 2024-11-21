@@ -24,14 +24,11 @@ defmodule Poker do
 
       iex> deck = Poker.create_deck
       iex> Poker.contains?(deck, "Ace of Spades")
-      true
+      false
 
   """
   def contains?(deck, card) do
-    case card do
-      %{value: _value, suit: _suit} -> Enum.member?(deck, card)
-      card_string -> Enum.member?(deck, parse_card_string(card_string))
-    end
+    Enum.member?(deck, card)
   end
 
   @doc """
